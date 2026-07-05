@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blume Media IT | Innovative App-Entwicklung</title>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #007bff;
+            --accent-blue: #00c6ff;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        header {
+            background: linear-gradient(90deg, var(--primary-dark) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        header img {
+            height: 120px;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            margin: 0 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+            border-radius: 2px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .app-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .app-card:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .app-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .app-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: #f1f5f9;
+            color: var(--text-light);
+        }
+
+        .status-soon { background: #e0f2fe; color: #0369a1; }
+        .status-reserved { background: #fef3c7; color: #92400e; }
+
+        .download-btn {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(90deg, #10b981, #059669);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .download-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        .blog-post {
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-post h3 { margin-bottom: 0.5rem; }
+        .date { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 3rem 1rem; }
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            header img { height: 100px; }
+
+            nav {
+                flex-wrap: wrap;
+                padding: 0.5rem;
+                gap: 5px;
+            }
+            nav a {
+                padding: 0.4rem 0.8rem;
+                margin: 0;
+                font-size: 0.85rem;
+                flex: 1 1 40%;
+                text-align: center;
+            }
+
+            .container {
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+            section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                display: inline-block;
+            }
+            h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+            }
+
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-card { padding: 1.5rem; }
+
+            .blog-post {
+                padding-left: 0;
+                border-left: none;
+                border-top: 3px solid var(--primary-blue);
+                padding-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <img src="logo.png" alt="Blume Media IT Logo">
+        <h1>Blume Media IT</h1>
+    </div>
+</header>
+
+<nav>
+    <a href="#home">Startseite</a>
+    <a href="#apps">Apps</a>
+    <a href="#blog">Updates</a>
+    <a href="#about">Über mich</a>
+    <a href="#contact">Kontakt</a>
+</nav>
+
+<div class="container">
+    <section id="home">
+        <h2>Innovation erleben</h2>
+        <p>Willkommen bei Blume Media IT. Wir entwickeln nicht nur Anwendungen – wir erschaffen digitale Erlebnisse, die intuitiv, leistungsstark und zukunftsorientiert sind.</p>
+    </section>
+
+    <section id="apps">
+        <h2>Meine Apps</h2>
+        <div class="app-grid">
+            <div class="app-card" id="card-boatwarn">
+                <span class="app-status" id="status-boatwarn" style="background: #dcfce7; color: #166534;">Live</span>
+                <h3>BoatWarn</h3>
+                <p>Präzise Sicherheit auf dem Wasser. Entwickelt für Bootsführern und Bootsführerinnen.</p>
+                <div id="download-area-boatwarn">
+                    <button class="download-trigger-btn" onclick="toggleDownload(event)" style="padding: 0.8rem 1.5rem; background: var(--primary-blue); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 1rem;">Download Optionen</button>
+                    <a href="BoatWarn-Release.apk" class="download-btn" id="boatnav-dl">⬇️ Kostenlos herunterladen</a>
+                </div>
+                <p id="maintenance-msg-boatwarn" style="display:none; color: #991B1B; font-weight: bold; margin-top: 1rem;">
+                    Die App befindet sich aktuell in Entwicklung. Daher ist das Herunterladen der App momentan nicht möglich.
+                </p>
+            </div>
+
+            <div class="app-card">
+                <span class="app-status status-soon">Demnächst</span>
+                <h3>App 2</h3>
+                <p>Eine innovative Lösung für den digitalen Alltag. Release-Datum wird bald bekannt gegeben.</p>
+            </div>
+
+            <div class="app-card">
+                <span class="app-status status-reserved">Reserviert</span>
+                <h3>App 3</h3>
+                <p>Exklusives Projekt in der frühen Konzeptionsphase.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <h2>Entwicklungsupdates</h2>
+        <div class="blog-post">
+            <h3>BoatWarn 1.0 Deployment</h3>
+            <p class="date">26. Juni 2026</p>
+            <p>Die erste stabile Version von BoatWarn ist nun offiziell bereit zur Installation. Ich optimiere stetig das Nutzererlebnis.</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>Über mich</h2>
+        <p>Hinter <strong>Blume Media IT</strong> stehe ich, Konstantin Blume. Ich bin 17 Jahre alt und habe dieses Projekt als "Hobby-Start-up" ins Leben gerufen, um meine Leidenschaft für das Programmieren und die App-Entwicklung mit der Welt zu teilen.</p>
+        <p>Mein Ziel ist es, praktische Lösungen für echte Probleme zu finden – wie zum Beispiel mehr Sicherheit auf dem Wasser mit BoatWarn. Für mich ist jedes Projekt eine Chance, etwas Neues zu lernen und meine Software immer weiter zu verbessern.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Kontakt</h2>
+        <p>Lassen Sie uns gemeinsam Großes schaffen.</p>
+        <br>
+        <a href="mailto:kontakt.blume.media.it@gmail.com" class="contact-info">
+            ✉️ kontakt.blume.media.it@gmail.com
+        </a>
+    </section>
+</div>
+
+<footer>
+    <p onclick="adminLogin()" style="cursor: pointer;">&copy; 2026 Blume Media IT. Designed with passion for digital excellence.</p>
+    <div id="admin-panel" style="display:none; margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.05); border-radius: 10px; text-align: left;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <p><b>Admin Dashboard</b></p>
+            <button onclick="adminLogout()" style="padding: 5px 10px; background: #991b1b; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">Ausloggen</button>
+        </div>
+        <p>Gesamtbesucher: <span id="visitor-count">Lädt...</span></p>
+        <hr style="margin: 10px 0;">
+        <p><b>Wartungsmodus</b></p>
+        <label style="cursor: pointer;">
+            <input type="checkbox" id="maintenance-checkbox" onchange="setMaintenance(this.checked)"> BoatWarn Wartungsmodus aktivieren
+        </label>
+    </div>
+</footer>
+
+<script>
+    const API_BASE = "https://boat-nav-backend.onrender.com/api";
+
+    // Initialisierung beim Laden
+    document.addEventListener('DOMContentLoaded', () => {
+        // Besucher zählen
+        fetch(`${API_BASE}/visitor-count?mode=inc`).catch(err => console.error(err));
+
+        // Wartungsstatus prüfen
+        checkMaintenance();
+    });
+
+    function checkMaintenance() {
+        fetch(`${API_BASE}/maintenance?app=boatwarn`)
+            .then(r => r.json())
+            .then(data => {
+                const dlArea = document.getElementById('download-area-boatwarn');
+                const msg = document.getElementById('maintenance-msg-boatwarn');
+                const status = document.getElementById('status-boatwarn');
+                const checkbox = document.getElementById('maintenance-checkbox');
+
+                if (data.enabled) {
+                    dlArea.style.display = 'none';
+                    msg.style.display = 'block';
+                    status.innerText = "Wartung";
+                    status.style.background = "#fee2e2";
+                    status.style.color = "#991b1b";
+                    if(checkbox) checkbox.checked = true;
+                } else {
+                    dlArea.style.display = 'block';
+                    msg.style.display = 'none';
+                    status.innerText = "Live";
+                    status.style.background = "#dcfce7";
+                    status.style.color = "#166534";
+                    if(checkbox) checkbox.checked = false;
+                }
+            });
+    }
+
+    function toggleDownload(event) {
+        if (event) event.stopPropagation();
+        const btn = document.getElementById('boatnav-dl');
+        if (btn.style.display === 'block') {
+            btn.style.display = 'none';
+        } else {
+            btn.style.display = 'block';
+        }
+    }
+
+    function setMaintenance(enabled) {
+        const val = enabled ? 1 : 0;
+        fetch(`${API_BASE}/maintenance?app=boatwarn&set=${val}`)
+            .then(() => checkMaintenance())
+            .catch(err => alert("Fehler beim Setzen des Wartungsmodus"));
+    }
+
+    function adminLogin() {
+        const password = prompt("Admin-Passwort eingeben:");
+        if (password === "BNA2609") { // Dein Passwort wie in der App
+            document.getElementById('admin-panel').style.display = 'block';
+            fetch(`${API_BASE}/visitor-count?mode=get`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('visitor-count').innerText = data.count;
+                });
+            // Checkbox Status nochmal aktuell holen
+            fetch(`${API_BASE}/maintenance?app=boatwarn`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('maintenance-checkbox').checked = data.enabled;
+                });
+        } else if (password !== null) {
+            alert("Falsches Passwort!");
+        }
+    }
+
+    function adminLogout() {
+        document.getElementById('admin-panel').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
