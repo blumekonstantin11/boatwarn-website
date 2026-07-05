@@ -386,11 +386,15 @@
         <label style="cursor: pointer;">
             <input type="checkbox" id="maintenance-checkbox" onchange="setMaintenance(this.checked)"> BoatWarn Wartungsmodus aktivieren
         </label>
+        <hr style="margin: 10px 0;">
+        <p><b>Server Management</b></p>
+        <button onclick="resetServer()" style="padding: 8px 15px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;">🔥 Alle Daten zurücksetzen (Notrufe/Chats)</button>
     </div>
 </footer>
 
 <script>
     const API_BASE = "https://boat-nav-backend.onrender.com/api";
+    let adminPass = ""; // Passwort für Admin-Aktionen speichern
 
     // Initialisierung beim Laden
     document.addEventListener('DOMContentLoaded', () => {
@@ -448,6 +452,7 @@
     function adminLogin() {
         const password = prompt("Admin-Passwort eingeben:");
         if (password === "BNA2609") { // Dein Passwort wie in der App
+            adminPass = password;
             document.getElementById('admin-panel').style.display = 'block';
             fetch(`${API_BASE}/visitor-count?mode=get`)
                 .then(r => r.json())
@@ -466,7 +471,24 @@
     }
 
     function adminLogout() {
+        adminPass = "";
         document.getElementById('admin-panel').style.display = 'none';
+    }
+
+    function resetServer() {
+        if (confirm("WARNUNG: Möchtest du wirklich alle Notrufe, Chats und Standorte vom Server löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.")) {
+            fetch(`${API_BASE}/admin/reset`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: adminPass })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) alert("Fehler: " + data.error);
+                else alert(data.message);
+            })
+            .catch(err => alert("Netzwerkfehler beim Zurücksetzen"));
+        }
     }
 </script>
 
