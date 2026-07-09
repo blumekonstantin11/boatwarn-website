@@ -295,14 +295,14 @@
     </div>
 </header>
 
-<nav>
-    <a href="#home">Startseite</a>
-    <a href="#apps">Apps</a>
-    <a href="#blog">Updates</a>
-    <!-- <a href="#support">Unterstützen</a> -->
-    <a href="#about">Über mich</a>
-    <a href="#contact">Kontakt</a>
-</nav>
+    <nav>
+        <a href="#home">Startseite</a>
+        <a href="#apps">Apps</a>
+        <a href="#blog">Updates</a>
+        <a href="#support" id="nav-support">Unterstützen</a>
+        <a href="#about">Über mich</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
 
 <div class="container">
     <section id="home">
@@ -354,13 +354,17 @@
         </div>
     </section>
 
-    <!--
     <section id="support">
         <h2>Projekt unterstützen</h2>
         <p>BoatWarn ist ein Herzensprojekt, das ich in meiner Freizeit entwickle und finanziere. Um die laufenden Serverkosten zu decken und die Weiterentwicklung zu sichern (damit die App auch nach Juli 2026 stabil bleibt), freue ich mich über jede kleine Unterstützung per Überweisung.</p>
 
-        <div style="display: flex; justify-content: center; margin-top: 2rem;">
-            <div class="app-card" style="width: 100%; max-width: 450px; border: 2px solid #1e3a8a; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); position: relative; cursor: default; text-align: left;">
+        <div style="display: flex; justify-content: center; margin-top: 2rem; position: relative; max-width: 450px; margin-left: auto; margin-right: auto;">
+            <!-- Rotes Overlay für "Deaktiviert"-Status -->
+            <div id="support-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(220, 38, 38, 0.7); z-index: 10; display: flex; align-items: center; justify-content: center; border-radius: 20px; text-align: center; padding: 20px; backdrop-filter: blur(2px);">
+                <h3 style="color: white; font-weight: 900; background: none; -webkit-text-fill-color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin: 0;">Spenden momentan nicht möglich!</h3>
+            </div>
+
+            <div class="app-card" style="width: 100%; border: 2px solid #1e3a8a; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); position: relative; cursor: default; text-align: left; margin: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 1.5rem;">
                     <h3 style="color: #1e3a8a; margin: 0;">Bankverbindung</h3>
                     <span style="font-size: 1.5rem;">🏦</span>
@@ -390,7 +394,6 @@
             </div>
         </div>
     </section>
-    -->
 
     <section id="about">
         <h2>Über mich</h2>
@@ -420,6 +423,11 @@
         <p><b>Wartungsmodus</b></p>
         <label style="cursor: pointer;">
             <input type="checkbox" id="maintenance-checkbox" onchange="setMaintenance(this.checked)"> BoatWarn Wartungsmodus aktivieren
+        </label>
+        <hr style="margin: 10px 0;">
+        <p><b>Webseiten-Funktionen</b></p>
+        <label style="cursor: pointer;">
+            <input type="checkbox" id="support-checkbox" onchange="toggleSupportEnabled(this.checked)"> Spenden-Status freigeben (Live)
         </label>
         <hr style="margin: 10px 0;">
         <p><b>Server Management</b></p>
@@ -482,6 +490,15 @@
         fetch(`${API_BASE}/maintenance?app=boatwarn&set=${val}`)
             .then(() => checkMaintenance())
             .catch(err => alert("Fehler beim Setzen des Wartungsmodus"));
+    }
+
+    function toggleSupportEnabled(enabled) {
+        const overlay = document.getElementById('support-overlay');
+        if (enabled) {
+            overlay.style.display = 'none';
+        } else {
+            overlay.style.display = 'flex';
+        }
     }
 
     function adminLogin() {
