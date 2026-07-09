@@ -299,6 +299,7 @@
     <a href="#home">Startseite</a>
     <a href="#apps">Apps</a>
     <a href="#blog">Updates</a>
+    <!-- <a href="#support">Unterstützen</a> -->
     <a href="#about">Über mich</a>
     <a href="#contact">Kontakt</a>
 </nav>
@@ -352,6 +353,44 @@
             <p>Wir haben BoatWarn massiv verbessert! In Version 1.1 ist die App nun komplett kostenlos (Unlimited Brounds) und die Bankkarten-Funktion wurde entfernt. Neu dabei: Ein Notfall-Chat für Helfer im 1km-Umkreis, ein automatischer Update-Installer und ein verbesserter Schutz vor Fehlalarmen durch die 20-Minuten-Bestätigung.</p>
         </div>
     </section>
+
+    <!--
+    <section id="support">
+        <h2>Projekt unterstützen</h2>
+        <p>BoatWarn ist ein Herzensprojekt, das ich in meiner Freizeit entwickle und finanziere. Um die laufenden Serverkosten zu decken und die Weiterentwicklung zu sichern (damit die App auch nach Juli 2026 stabil bleibt), freue ich mich über jede kleine Unterstützung per Überweisung.</p>
+
+        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+            <div class="app-card" style="width: 100%; max-width: 450px; border: 2px solid #1e3a8a; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); position: relative; cursor: default; text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 1.5rem;">
+                    <h3 style="color: #1e3a8a; margin: 0;">Bankverbindung</h3>
+                    <span style="font-size: 1.5rem;">🏦</span>
+                </div>
+
+                <div style="width: 100%; margin-bottom: 1rem;">
+                    <label style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; display: block;">Kontoinhaber</label>
+                    <p style="font-weight: 700; margin: 0; color: var(--primary-dark);">Konstantin Blume</p>
+                </div>
+
+                <div style="width: 100%; margin-bottom: 1rem;">
+                    <label style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; display: block;">IBAN</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <p id="iban-text" style="font-family: 'Courier New', monospace; font-weight: 700; margin: 0; font-size: 1.1rem; color: var(--primary-dark);">DE00 0000 0000 0000 0000 00</p>
+                        <button onclick="copyIban()" style="background: #f1f5f9; border: 1px solid #cbd5e1; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.9rem;" title="IBAN kopieren">📋 Kopieren</button>
+                    </div>
+                </div>
+
+                <div style="width: 100%;">
+                    <label style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; display: block;">BIC / SWIFT</label>
+                    <p style="font-family: 'Courier New', monospace; font-weight: 700; margin: 0; color: var(--primary-dark);">XXXXXXXXXXX</p>
+                </div>
+
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-light); font-style: italic;">
+                    Vielen Dank für deine Unterstützung!
+                </p>
+            </div>
+        </div>
+    </section>
+    -->
 
     <section id="about">
         <h2>Über mich</h2>
@@ -485,6 +524,15 @@
             })
             .catch(err => alert("Netzwerkfehler beim Zurücksetzen"));
         }
+    }
+
+    function copyIban() {
+        const iban = document.getElementById('iban-text').innerText;
+        navigator.clipboard.writeText(iban).then(() => {
+            alert("IBAN wurde in die Zwischenablage kopiert!");
+        }).catch(err => {
+            console.error('Fehler beim Kopieren:', err);
+        });
     }
 </script>
 
